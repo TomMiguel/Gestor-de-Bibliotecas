@@ -1,0 +1,36 @@
+<div class="card mt-4">
+  <div class="card-header">
+    <h2>{{ isEditMode ? 'Editar Usuario' : 'Crear Nuevo Usuario' }}</h2>
+  </div>
+  <div class="card-body">
+    <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+      <div class="mb-3">
+        <label for="nombre" class="form-label">Nombre</label>
+        <input type="text" id="nombre" formControlName="nombre" class="form-control"
+               [class.is-invalid]="userForm.get('nombre')?.invalid && userForm.get('nombre')?.touched">
+        <div *ngIf="userForm.get('nombre')?.invalid && userForm.get('nombre')?.touched" class="invalid-feedback">
+          El nombre es obligatorio.
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label for="email" class="form-label">Email</label>
+        <input type="email" id="email" formControlName="email" class="form-control"
+               [class.is-invalid]="userForm.get('email')?.invalid && userForm.get('email')?.touched">
+        <div *ngIf="userForm.get('email')?.errors?.['required'] && userForm.get('email')?.touched" class="invalid-feedback">
+          El email es obligatorio.
+        </div>
+        <div *ngIf="userForm.get('email')?.errors?.['email'] && userForm.get('email')?.touched" class="invalid-feedback">
+          Por favor, introduce un email válido.
+        </div>
+      </div>
+
+      <div class="d-flex justify-content-end">
+        <button type="button" class="btn btn-secondary me-2" (click)="onCancel()">Cancelar</button>
+        <button type="submit" class="btn btn-primary" [disabled]="userForm.invalid">
+          {{ isEditMode ? 'Guardar Cambios' : 'Crear Usuario' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,48 @@
+<div class="card">
+  <div class="card-header d-flex justify-content-between align-items-center">
+    <h2>Lista de Usuarios</h2>
+    <a routerLink="/users/new" class="btn btn-success">
+      <i class="bi bi-plus-circle"></i> Añadir Usuario
+    </a>
+  </div>
+  <div class="card-body">
+    <div *ngIf="users.length === 0" class="alert alert-info" role="alert">
+      No hay usuarios registrados.
+    </div>
+    <div *ngIf="users.length > 0" class="table-responsive">
+      <table class="table table-striped table-hover">
+        <thead>
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Email</th>
+            <th scope="col">Fecha Registro</th>
+            <th scope="col">Libro en Préstamo</th>
+            <th scope="col">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let user of users">
+            <td>{{ user.id }}</td>
+            <td>{{ user.nombre }}</td>
+            <td>{{ user.email }}</td>
+            <td>{{ user.fecha_registro | date:'shortDate' }}</td> <td>
+              <span *ngIf="user.libro_en_prestamo">
+                {{ user.libro_en_prestamo.titulo }} ({{ user.libro_en_prestamo.isbn }})
+              </span>
+              <span *ngIf="!user.libro_en_prestamo" class="text-muted">Ninguno</span>
+            </td>
+            <td>
+              <a routerLink="/users/edit/{{ user.id }}" class="btn btn-sm btn-info me-2">
+                <i class="bi bi-pencil-square"></i> Editar
+              </a>
+              <button (click)="deleteUser(user.id)" class="btn btn-sm btn-danger">
+                <i class="bi bi-trash"></i> Eliminar
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

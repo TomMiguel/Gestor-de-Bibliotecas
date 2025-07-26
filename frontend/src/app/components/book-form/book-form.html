@@ -1,0 +1,47 @@
+<div class="card mt-4">
+  <div class="card-header">
+    <h2>{{ isEditMode ? 'Editar Libro' : 'Crear Nuevo Libro' }}</h2>
+  </div>
+  <div class="card-body">
+    <form [formGroup]="bookForm" (ngSubmit)="onSubmit()">
+      <div class="mb-3">
+        <label for="titulo" class="form-label">Título</label>
+        <input type="text" id="titulo" formControlName="titulo" class="form-control"
+               [class.is-invalid]="bookForm.get('titulo')?.invalid && bookForm.get('titulo')?.touched">
+        <div *ngIf="bookForm.get('titulo')?.invalid && bookForm.get('titulo')?.touched" class="invalid-feedback">
+          El título es obligatorio.
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label for="autor" class="form-label">Autor</label>
+        <input type="text" id="autor" formControlName="autor" class="form-control"
+               [class.is-invalid]="bookForm.get('autor')?.invalid && bookForm.get('autor')?.touched">
+        <div *ngIf="bookForm.get('autor')?.invalid && bookForm.get('autor')?.touched" class="invalid-feedback">
+          El autor es obligatorio.
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label for="isbn" class="form-label">ISBN</label>
+        <input type="text" id="isbn" formControlName="isbn" class="form-control"
+               [class.is-invalid]="bookForm.get('isbn')?.invalid && bookForm.get('isbn')?.touched">
+        <div *ngIf="bookForm.get('isbn')?.invalid && bookForm.get('isbn')?.touched" class="invalid-feedback">
+          El ISBN es obligatorio.
+        </div>
+      </div>
+
+      <div class="mb-3 form-check">
+        <input type="checkbox" id="disponible" formControlName="disponible" class="form-check-input">
+        <label class="form-check-label" for="disponible">Disponible</label>
+      </div>
+
+      <div class="d-flex justify-content-end">
+        <button type="button" class="btn btn-secondary me-2" (click)="onCancel()">Cancelar</button>
+        <button type="submit" class="btn btn-primary" [disabled]="bookForm.invalid">
+          {{ isEditMode ? 'Guardar Cambios' : 'Crear Libro' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

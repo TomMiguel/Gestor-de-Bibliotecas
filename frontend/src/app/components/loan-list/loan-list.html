@@ -1,0 +1,50 @@
+<div class="container mt-4">
+  <h2>Lista de Préstamos</h2>
+
+  <div class="d-flex justify-content-between mb-3">
+    <button class="btn btn-primary" [routerLink]="['/loans/new']">Añadir Nuevo Préstamo</button>
+    <button class="btn btn-info" (click)="toggleFilter()">
+      {{ filterActive ? 'Mostrar Todos los Préstamos' : 'Mostrar Préstamos Activos' }}
+    </button>
+  </div>
+
+  <div *ngIf="loans.length === 0" class="alert alert-warning">
+    No hay préstamos para mostrar.
+  </div>
+
+  <div *ngIf="loans.length > 0" class="table-responsive">
+    <table class="table table-striped table-hover">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Usuario</th>
+          <th>Libro</th>
+          <th>Fecha Préstamo</th>
+          <th>Fecha Devolución</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let loan of loans">
+          <td>{{ loan.id }}</td>
+          <td>{{ loan.user?.nombre }} ({{ loan.user?.email }})</td>
+          <td>{{ loan.book?.titulo }} ({{ loan.book?.autor }})</td>
+          <td>{{ loan.fecha_prestamo | date:'shortDate' }}</td>
+          <td>
+            <span *ngIf="loan.fecha_devolucion">
+              {{ loan.fecha_devolucion | date:'shortDate' }}
+            </span>
+            <span *ngIf="!loan.fecha_devolucion" class="badge bg-warning text-dark">
+              Activo
+            </span>
+          </td>
+          <td>
+            <button class="btn btn-sm btn-info me-2" (click)="editLoan(loan.id)">Editar</button>
+            <button class="btn btn-sm btn-success me-2" (click)="returnBook(loan.id)" [disabled]="loan.fecha_devolucion !== null">Devolver</button>
+            <button class="btn btn-sm btn-danger" (click)="deleteLoan(loan.id)">Eliminar</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
